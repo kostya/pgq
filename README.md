@@ -127,7 +127,7 @@ and run:
 Admins interface is possible like Resque, but not realized yet.
 For queues info, run in console:
 
-    > Pgq::Consumer.pgq_get_consumer_info
+    > Pgq::Consumer.database.pgq_get_consumer_info
 
 
 ### Failed events
