@@ -27,14 +27,14 @@ Create ticker configs:
     $ rails generate pgq:config
     edit config: config/pgq_development.ini
 
+
 Install pgq to database (if test database recreates all the time, should reinstall pgq each time):
 
-```shell
     $ rake pgq:install
     or execute
     $ pgqadm config/pgq_development.ini install
-```    
-    
+
+   
 
 Run ticker daemon (ticker needs on production database, or development if we test the process of consuming):
 Daemon run once, bind to the database. (If worker not consuming check that daemon started).
@@ -125,6 +125,8 @@ and run:
     $ ./bin/pgq_runner.rb -q all -l ./log/pgq_all.log   # this will consume all queues from config/queues_list.yml
 
 
+
+
 ### Admin interface
 Admins interface is possible like Resque, but not realized yet.
 For queues info, run in console:
@@ -158,8 +160,9 @@ class PgqMy < Pgq::Consumer
   
 end
 ```
-
 And run 3 workers: for my, my_2, my_3
+
+
 
 
 ### Consume group of events extracted from pgq(batch): 
@@ -174,6 +177,8 @@ class PgqMy < Pgq::ConsumerGroup
   
 end
 ```
+
+
 
 ### Options
 create initializer with:
