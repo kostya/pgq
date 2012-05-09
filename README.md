@@ -107,7 +107,8 @@ class PgqRunnerScript < BinScript
   required :w, "watch file"
   
   def do!
-    worker = Pgq::Worker.new(:logger => self.logger, :queues => params(:q), :watch_file => params(:w) || "./tmp/stop_all.txt")
+    worker = Pgq::Worker.new(:logger => self.logger, :queues => params(:q), 
+                             :watch_file => params(:w) || "./tmp/stop_all.txt")
     worker.run
   end
                                                                      
