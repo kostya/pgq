@@ -29,9 +29,11 @@ Create ticker configs:
 
 Install pgq to database (if test database recreates all the time, should reinstall pgq each time):
 
+```shell
     $ rake pgq:install
     or execute
     $ pgqadm config/pgq_development.ini install
+```    
     
 
 Run ticker daemon (ticker needs on production database, or development if we test the process of consuming):
