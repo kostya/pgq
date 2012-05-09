@@ -33,7 +33,7 @@ Install pgq to database (if test database recreates all the time, should reinsta
     
 
 Run ticker daemon (ticker needs on production database, or development if we test the process of consuming):
-Daemon run once, bind to the database. (If worker not cunsuming check that daemon started).
+Daemon run once, bind to the database. (If worker not consuming check that daemon started).
 
     $ rake pgq:ticker:start (stop)
     or execute
@@ -121,10 +121,8 @@ and run:
     $ ./bin/pgq_runner.rb -q all -l ./log/pgq_all.log   # this will consume all queues from config/queues_list.yml
 
 
-Admin interface
----------------
-
-Admins interface possible like Resque, but not realized yet.
+### Admin interface
+Admins interface is possible like Resque, but not realized yet.
 For queues info, run in console:
 
     > Pgq::Consumer.pgq_get_consumer_info
