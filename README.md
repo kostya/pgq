@@ -97,7 +97,7 @@ Start worker for queue:
     
 
 
-Also possible consume by hands, or write [bin_script](http://github.com/kostya/bin_script) like this:
+Also can consume manual, or write [bin_script](http://github.com/kostya/bin_script) like this:
 ```ruby
 class PgqRunnerScript < BinScript
 
@@ -106,13 +106,8 @@ class PgqRunnerScript < BinScript
   required :q, "queues separated by ','"
   required :w, "watch file"
   
-  def queue
-    params(:q)
-  end
-      
   def do!
-    $0 = "ruby pgq #{queue} > #{params(:l)}"
-    worker = Pgq::Worker.new(:logger => self.logger, :queues => queue, :watch_file => params(:w) || "#{Rails.root}/tmp/stop_#{queue}.txt")
+    worker = Pgq::Worker.new(:logger => self.logger, :queues => params(:q), :watch_file => params(:w) || "./tmp/stop_all.txt")
     worker.run
   end
                                                                      
