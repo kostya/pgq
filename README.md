@@ -18,7 +18,9 @@ Ubuntu 11.10:
 
 Gemfile:
 
-    gem 'pgq'
+```ruby
+gem 'pgq'
+```
 
 Create ticker configs:
 
