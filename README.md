@@ -162,6 +162,7 @@ And run 3 workers: for my, my_2, my_3
 
 
 ### Consume group of events extracted from pgq(batch): 
+Usually batch size is ~500 events.
 
 ```ruby
 class PgqMy < Pgq::ConsumerGroup
