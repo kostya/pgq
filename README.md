@@ -74,7 +74,7 @@ class PgqMy < Pgq::Consumer
 end
 ```
 
-Insert event into queue like this:
+Insert event into queue:
 
     PgqMy.some_method1(1, 2, 3)
     
@@ -97,7 +97,7 @@ Start worker for queue:
     
 
 
-Also can consume manual, or write [bin_script](http://github.com/kostya/bin_script) like this:
+Also can consume manual, or write [bin_script](http://github.com/kostya/bin_script):
 ```ruby
 class PgqRunnerScript < BinScript
 

@@ -97,7 +97,7 @@ module Pgq::Utils
   
   # == proxing method for tests
   def proxy(method_name)
-    self.should_receive(method_name) do |*data|
+    self.should_receive(:enqueue) do |method_name, *data|
       x = self.coder.load(self.coder.dump(data))
       self.new.send(:perform, method_name, *x)
     end.any_number_of_times

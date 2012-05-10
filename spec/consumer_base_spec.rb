@@ -141,7 +141,7 @@ describe Pgq::ConsumerBase do
   
   it "should proxy consumer" do
     PgqTata3.proxy(:ptest)
-    PgqTata3.ptest(111, 'abc').should == 10
+    PgqTata3.enqueue(:ptest, 111, 'abc').should == 10
     $a.should == 111
     $b.should == 'abc'
   end
