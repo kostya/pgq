@@ -35,7 +35,7 @@ class Pgq::ConsumerBase
   end
   
   def self.set_queue_name(name)
-    self.instance_variable_set('@queue_name', name.to_s)
+    @queue_name = name.to_s
   end
   
   # magic set queue_name from class name
