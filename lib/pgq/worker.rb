@@ -29,20 +29,20 @@ class Pgq::Worker
     @logger = h[:logger] || (defined?(Rails) && Rails.logger) || Logger.new(STDOUT)
     @consumers = []
     
-    queues = h[:queues]
-    raise "Queue not selected" if queues.blank?
+    @queues = h[:queues]
+    raise "Queue not selected" if @queues.blank?
     
-    if queues == ['all'] || queues == 'all'
+    if @queues == ['all'] || @queues == 'all'
       if defined?(Rails) && File.exists?(Rails.root + "config/queues_list.yml")
-        queues = YAML.load_file(Rails.root + "config/queues_list.yml")
+        @queues = YAML.load_file(Rails.root + "config/queues_list.yml")
       else
         raise "You shoud create config/queues_list.yml for all queues"
       end
     end
     
-    queues = queues.split(',') if queues.is_a?(String)
+    @queues = @queues.split(',') if @queues.is_a?(String)
     
-    queues.each do |queue|
+    @queues.each do |queue|
       klass = Pgq::Worker.predict_queue_class(queue)
       if klass
         @consumers << klass.new(@logger, queue)
@@ -72,7 +72,7 @@ class Pgq::Worker
   end
 
   def run
-    logger.info "Worker start"
+    logger.info "Worker for (#{@queues.join(",")}) started"
 
     loop do
       processed_count = process_batch
