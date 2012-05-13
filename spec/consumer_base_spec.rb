@@ -131,12 +131,14 @@ describe Pgq::ConsumerBase do
 
   describe "migration" do
     it "up" do
-      Pgq::ConsumerBase.database.should_receive(:pgq_add_queue).with('super', Pgq::ConsumerBase.consumer_name)
+      Pgq::ConsumerBase.database.should_receive(:pgq_create_queue).with('super')
+      Pgq::ConsumerBase.database.should_receive(:pgq_register_consumer).with('super', Pgq::ConsumerBase.consumer_name)
       Pgq::ConsumerBase.add_queue("super")
     end
 
     it "down" do
-      Pgq::ConsumerBase.database.should_receive(:pgq_remove_queue).with('super', Pgq::ConsumerBase.consumer_name)
+      Pgq::ConsumerBase.database.should_receive(:pgq_drop_queue).with('super')
+      Pgq::ConsumerBase.database.should_receive(:pgq_unregister_consumer).with('super', Pgq::ConsumerBase.consumer_name)
       Pgq::ConsumerBase.remove_queue("super")
     end
   end

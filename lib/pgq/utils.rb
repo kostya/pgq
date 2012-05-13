@@ -114,7 +114,6 @@ module Pgq::Utils
     events.length
   end
 
-
   def last_event_id(queue_name) 
     ticks = database.pgq_get_queue_info(queue_name)
     table = connection.select_value("SELECT queue_data_pfx AS table FROM pgq.queue WHERE queue_name = #{database.sanitize(queue_name)}")
