@@ -21,7 +21,7 @@ describe Pgq::Event do
 
   it "should failed!" do
     @consumer.should_receive(:event_failed).with(123, an_instance_of(String))
-    @ev.failed!
+    @ev.failed!(Exception.new("haha"))
   end
 
   it "should retry!" do

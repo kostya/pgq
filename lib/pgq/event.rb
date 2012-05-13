@@ -8,12 +8,9 @@ class Pgq::Event
     @consumer = consumer
   end
 
-  def failed!(ex = 'Something happens')
-    if ex.is_a?(String)
-      @consumer.event_failed @id, ex
-    else # exception
-      @consumer.event_failed @id, exception_message(ex)      
-    end
+  def failed!(ex)
+    h = {:class => ex.class.to_s, :message => ex.message, :backtrace => ex.backtrace}
+    @consumer.event_failed @id, consumer.coder.dump(h)
   end
   
   def retry!

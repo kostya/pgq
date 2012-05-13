@@ -105,8 +105,9 @@ describe Pgq::ConsumerBase do
     end
 
     it "all_events_failed" do
-      @event.should_receive(:failed!).with(an_instance_of(String))
-      @consumer.all_events_failed(@events, Exception.new('wow'))
+      ex = Exception.new('wow')
+      @event.should_receive(:failed!).with(ex)
+      @consumer.all_events_failed(@events, ex)
     end
 
     it "perform_events" do
@@ -120,8 +121,9 @@ describe Pgq::ConsumerBase do
     end
 
     it "perform_event raised" do
-      @consumer.should_receive(:perform).with('bla', *@data).and_throw(:wow)
-      @event.should_receive(:failed!).with(an_instance_of(String))
+      ex = Exception.new('wow')
+      @consumer.should_receive(:perform).with('bla', *@data).and_raise(ex)
+      @event.should_receive(:failed!).with(ex)
       @consumer.perform_event(@event)
     end
 

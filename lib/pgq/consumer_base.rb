@@ -119,14 +119,12 @@ class Pgq::ConsumerBase
     perform(type, *data)
 
   rescue Exception => ex
-    message = event.exception_message(ex)
-    self.log_error(message)
-    event.failed!(message)
+    self.log_error(event.exception_message(ex))
+    event.failed!(ex)
     
   rescue => ex
-    message = event.exception_message(ex)
-    self.log_error(message)
-    event.failed!(message)
+    self.log_error(event.exception_message(ex))
+    event.failed!(ex)
   end
 
   def perform(type, *data)
@@ -154,11 +152,10 @@ class Pgq::ConsumerBase
   end
 
   def all_events_failed(events, ex)
-    message = Pgq::Event.exception_message(ex)    
-    log_error(message)
+    log_error(Pgq::Event.exception_message(ex))
     
     events.each do |event|
-      event.failed!(message)
+      event.failed!(ex)
     end    
   end
 

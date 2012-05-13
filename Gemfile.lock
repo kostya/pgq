@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pgq (0.1)
+    pgq (0.1.1)
       activerecord (>= 2.3.2)
       activesupport (>= 2.3.2)
 
