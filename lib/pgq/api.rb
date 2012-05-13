@@ -81,8 +81,10 @@ module Pgq::Api
     connection.select_value(sanitize_sql_array ["SELECT pgq.get_queue_info(?)", queue_name])
   end          
   
-  def pgq_get_queues_info()
-    connection.select_all("SELECT pgq.get_queue_info()")
+  # Get list of queues.
+  # Result: (queue_name, queue_ntables, queue_cur_table, queue_rotation_period, queue_switch_time, queue_external_ticker, queue_ticker_max_count, queue_ticker_max_lag, queue_ticker_idle_period, ticker_lag)
+  def pgq_get_queues_info
+    connection.select_values("SELECT pgq.get_queue_info()")
   end          
   
   def pgq_get_consumer_info
