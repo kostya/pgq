@@ -54,10 +54,6 @@ module Pgq::Api
     connection.select_value(sanitize_sql_array ["SELECT pgq.finish_batch(?)", batch_id])
   end
 
-  def pgq_get_queue_info(queue_name)
-    connection.select_value(sanitize_sql_array ["SELECT pgq.get_queue_info(?)", queue_name])
-  end
-
   def pgq_failed_event_retry(queue_name, consumer, event_id)
     connection.select_value(sanitize_sql_array ["SELECT * FROM pgq.failed_event_retry(?, ?, ?)", queue_name, consumer, event_id])
   end
@@ -80,6 +76,14 @@ module Pgq::Api
   def pgq_queue_lag(queue_name)
     connection.select_value(sanitize_sql_array ["SELECT Max(EXTRACT(epoch FROM lag)) FROM pgq.get_consumer_info() where queue_name = ?", queue_name]).to_f
   end
+  
+  def pgq_get_queue_info(queue_name)
+    connection.select_value(sanitize_sql_array ["SELECT pgq.get_queue_info(?)", queue_name])
+  end          
+  
+  def pgq_get_queues_info()
+    connection.select_all("SELECT pgq.get_queue_info()")
+  end          
   
   def pgq_get_consumer_info
     connection.select_all("SELECT * FROM pgq.get_consumer_info()")
