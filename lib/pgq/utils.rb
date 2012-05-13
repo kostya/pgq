@@ -7,11 +7,13 @@ module Pgq::Utils
 
   # == methods for migrations
   def add_queue(queue_name, consumer_name = self.consumer_name)
-    database.pgq_add_queue(queue_name, consumer_name)
+    database.pgq_create_queue(queue_name.to_s)
+    database.pgq_register_consumer(queue_name.to_s, consumer_name.to_s)
   end
 
   def remove_queue(queue_name, consumer_name = self.consumer_name)
-    database.pgq_remove_queue(queue_name, consumer_name)
+    database.pgq_unregister_consumer(queue_name.to_s, consumer_name.to_s)
+    database.pgq_drop_queue(queue_name.to_s)
   end
   
   # == inspect queue
