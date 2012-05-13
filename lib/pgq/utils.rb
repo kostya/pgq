@@ -2,7 +2,7 @@ module Pgq::Utils
 
   # == all queues for database
   def queues_list
-    database.pgq_get_consumer_info.map{|x| x['queue_name']}
+    database.pgq_get_consumer_info.map{|x| x['queue_name']}.uniq
   end
 
   # == methods for migrations
