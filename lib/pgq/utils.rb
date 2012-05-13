@@ -25,7 +25,7 @@ module Pgq::Utils
       stats = connection.select_all <<-SQL
         SELECT count(*) as count, ev_type
         FROM #{table}
-        WHERE ev_id > #{database.sanitize(last_event.to_i)}
+        WHERE ev_id > #{last_event.to_i}
         GROUP BY ev_type
       SQL
       
@@ -61,7 +61,7 @@ module Pgq::Utils
       stats = connection.select_all <<-SQL
         SELECT count(*) as count, ev_type, ev_extra1
         FROM #{table}
-        WHERE ev_id > #{database.sanitize(last_event.to_i)}
+        WHERE ev_id > #{last_event.to_i}
         GROUP BY ev_type, ev_extra1
       SQL
       
