@@ -94,7 +94,7 @@ module Pgq::Api
   end
   
   def pgq_get_consumer_queue_info(queue_name)
-    connection.select_one(sanitize_sql_array ["SELECT * FROM pgq.get_consumer_info() WHERE queue_name = ?", queue_name])
+    connection.select_one(sanitize_sql_array ["SELECT * FROM pgq.get_consumer_info() WHERE queue_name = ?", queue_name]) || {}
   end
 
 end
