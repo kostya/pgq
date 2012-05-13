@@ -25,7 +25,7 @@ describe Pgq::Event do
   end
 
   it "should retry!" do
-    @consumer.should_receive(:event_retry).with(123)    
+    @consumer.should_receive(:event_retry).with(123, 0)
     @ev.retry!
   end
  

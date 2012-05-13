@@ -147,8 +147,8 @@ class Pgq::ConsumerBase
     database.pgq_event_failed(@batch_id, event_id, reason)
   end
 
-  def event_retry(event_id)
-    database.pgq_event_retry(@batch_id, event_id, 0)
+  def event_retry(event_id, seconds = 0)
+    database.pgq_event_retry(@batch_id, event_id, seconds)
   end
 
   def all_events_failed(events, ex)

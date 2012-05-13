@@ -13,8 +13,8 @@ class Pgq::Event
     @consumer.event_failed @id, consumer.coder.dump(h)
   end
   
-  def retry!
-    @consumer.event_retry(@id)
+  def retry!(seconds = 0)
+    @consumer.event_retry(@id, seconds)
   end
 
   def self.exception_message(e)
