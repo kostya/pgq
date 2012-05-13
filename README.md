@@ -135,11 +135,11 @@ When any raise happens in consumer, its produce failed event, which can be retry
 
 Retry manual:
 
-    Pgq::Consumer.resend_failed_events(queue_name)
+    Pgq::Consumer.retry_failed_events(queue_name)
 
 Delete manual:
     
-    Pgq::Consumer.clear_failed_events(queue_name)
+    Pgq::Consumer.delete_failed_events(queue_name)
 
 
 ### Divide events between workers, for one consumer class

@@ -23,8 +23,7 @@ class Pgq::Event
   def self.exception_message(e)
     <<-EXCEPTION
 Exception happend
-Type: #{e.class.inspect}
-Error occurs: #{e.message}
+Error occurs: #{e.class.inspect}(#{e.message})
 Backtrace: #{e.backtrace.join("\n") rescue ''}
     EXCEPTION
   end
@@ -33,9 +32,9 @@ Backtrace: #{e.backtrace.join("\n") rescue ''}
   def exception_message(e)
     <<-EXCEPTION
 Exception happend
-Type: #{type.inspect} #{e.class.inspect}
+Type: #{type.inspect}
 Data: #{data.inspect}
-Error occurs: #{e.message}
+Error occurs: #{e.class.inspect}(#{e.message})
 Backtrace: #{e.backtrace.join("\n") rescue ''}
     EXCEPTION
   end

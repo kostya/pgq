@@ -92,7 +92,7 @@ module Pgq::Utils
   end
   
   # == resend failed events in queue
-  def resend_failed_events(queue_name, limit = 5_000)
+  def retry_failed_events(queue_name, limit = 5_000)
     events = database.pgq_failed_event_list(queue_name, self.consumer_name, limit, nil, 'asc') || []
 
     events.each do |event|
@@ -102,7 +102,7 @@ module Pgq::Utils
     events.length  
   end
   
-  def clear_failed_events(queue_name, limit = 5_000)
+  def delete_failed_events(queue_name, limit = 5_000)
     events = database.pgq_failed_event_list(queue_name, self.consumer_name, limit, nil, 'asc') || []
        
     events.each do |event|
