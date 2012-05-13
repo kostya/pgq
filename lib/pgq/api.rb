@@ -66,7 +66,7 @@ module Pgq::Api
     connection.select_value(sanitize_sql_array ["SELECT * FROM pgq.failed_event_delete(?, ?, ?)", queue_name, consumer, event_id])
   end
      
-  def pgq_failed_events_count(queue_name, consumer)
+  def pgq_failed_event_count(queue_name, consumer)
     res = connection.select_value(sanitize_sql_array ["SELECT * FROM pgq.failed_event_count(?, ?)", queue_name, consumer])
     res ? res.to_i : nil
   end
@@ -84,5 +84,5 @@ module Pgq::Api
   def pgq_get_consumer_info
     connection.select_all("SELECT * FROM pgq.get_consumer_info()")
   end
-  
+
 end

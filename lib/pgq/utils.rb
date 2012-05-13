@@ -17,15 +17,9 @@ module Pgq::Utils
   # == inspect queue
   # { type => events_count }
   def inspect_queue(queue_name)
-    ticks = database.pgq_get_queue_info(queue_name)
-    table = connection.select_value("SELECT queue_data_pfx as table FROM pgq.queue where queue_name = #{database.sanitize(queue_name)}")
+    table, last_event = last_event_id(queue_name)
     
-    result = {}
-    
-    if ticks['current_batch']
-      sql = connection.select_value("SELECT * from pgq.batch_event_sql(#{database.sanitize(ticks['current_batch'].to_i)})")
-      last_event = connection.select_value("SELECT MAX(ev_id) AS count FROM (#{sql}) AS x")
-      
+    if last_event
       stats = connection.select_all <<-SQL
         SELECT count(*) as count, ev_type
         FROM #{table}
@@ -59,15 +53,9 @@ module Pgq::Utils
   # show hash stats, for londiste type of storage events 
   # { type => events_count }
   def inspect_londiste_queue(queue_name)
-    ticks = database.pgq_get_consumer_info
-    table = connection.select_value(connection.sanitize_sql_array ["SELECT queue_data_pfx as table FROM pgq.queue where queue_name = ?", queue_name])
+    table, last_event = last_event_id(queue_name)
     
-    result = {}
-    
-    if ticks['current_batch']
-      sql = connection.select_value("SELECT * from pgq.batch_event_sql(#{database.sanitize(ticks['current_batch'].to_i)})")
-      last_event = connection.select_value("SELECT MAX(ev_id) AS count FROM (#{sql}) AS x")
-      
+    if last_event
       stats = connection.select_all <<-SQL
         SELECT count(*) as count, ev_type, ev_extra1
         FROM #{table}
@@ -122,6 +110,22 @@ module Pgq::Utils
     end
                       
     events.length
+  end
+
+
+  def last_event_id(queue_name) 
+    ticks = database.pgq_get_queue_info(queue_name)
+    table = connection.select_value("SELECT queue_data_pfx AS table FROM pgq.queue WHERE queue_name = #{database.sanitize(queue_name)}")
+    
+    result = nil
+        
+    if ticks['current_batch']
+      sql = connection.select_value("SELECT * FROM pgq.batch_event_sql(#{database.sanitize(ticks['current_batch'].to_i)})")
+      last_event = connection.select_value("SELECT MAX(ev_id) AS count FROM (#{sql}) AS x")
+      result = last_event.to_i
+    end
+    
+    [table, result]
   end
 
 end
