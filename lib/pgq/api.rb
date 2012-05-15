@@ -74,11 +74,6 @@ module Pgq::Api
 
   # == info methods
 
-  # queue lag in seconds
-  def pgq_queue_lag(queue_name)
-    connection.select_value(sanitize_sql_array ["SELECT Max(EXTRACT(epoch FROM lag)) FROM pgq.get_consumer_info() where queue_name = ?", queue_name]).to_f
-  end
-  
   def pgq_get_queue_info(queue_name)
     connection.select_value(sanitize_sql_array ["SELECT pgq.get_queue_info(?)", queue_name])
   end          
@@ -90,11 +85,11 @@ module Pgq::Api
   end          
   
   def pgq_get_consumer_info
-    connection.select_all("SELECT * FROM pgq.get_consumer_info()")
+    connection.select_all("SELECT *, EXTRACT(epoch FROM last_seen) AS last_seen_sec, EXTRACT(epoch FROM lag) AS lag_sec FROM pgq.get_consumer_info()")
   end
   
   def pgq_get_consumer_queue_info(queue_name)
-    connection.select_one(sanitize_sql_array ["SELECT * FROM pgq.get_consumer_info() WHERE queue_name = ?", queue_name]) || {}
+    connection.select_one(sanitize_sql_array ["SELECT *, EXTRACT(epoch FROM last_seen) AS last_seen_sec, EXTRACT(epoch FROM lag) AS lag_sec FROM pgq.get_consumer_info() WHERE queue_name = ?", queue_name]) || {}
   end
 
 end
