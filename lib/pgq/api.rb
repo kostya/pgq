@@ -89,7 +89,7 @@ module Pgq::Api
   end
   
   def pgq_get_consumer_queue_info(queue_name)
-    connection.select_one(sanitize_sql_array ["SELECT *, EXTRACT(epoch FROM last_seen) AS last_seen_sec, EXTRACT(epoch FROM lag) AS lag_sec FROM pgq.get_consumer_info() WHERE queue_name = ?", queue_name]) || {}
+    connection.select_one(sanitize_sql_array ["SELECT *, EXTRACT(epoch FROM last_seen) AS last_seen_sec, EXTRACT(epoch FROM lag) AS lag_sec FROM pgq.get_consumer_info(?)", queue_name]) || {}
   end
 
 end
