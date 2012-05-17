@@ -69,7 +69,7 @@ module Pgq::Api
   
   def pgq_failed_event_list queue_name, consumer, limit = nil, offset = nil, order = 'desc'
     order = (order.to_s == 'desc') ? order : 'asc'
-    connection.select_all(sanitize_sql_array ["SELECT * FROM pgq.failed_event_list(?, ?, ?, ?) order by ev_id #{order}", queue_name, consumer, limit.to_i, offset.to_i])
+    connection.select_all(sanitize_sql_array ["SELECT * FROM pgq.failed_event_list(?, ?, ?, ?) ORDER BY ev_id #{order.upcase}", queue_name, consumer, limit.to_i, offset.to_i])
   end
 
   # == info methods
