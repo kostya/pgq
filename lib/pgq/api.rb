@@ -92,4 +92,21 @@ module Pgq::Api
     connection.select_one(sanitize_sql_array ["SELECT *, EXTRACT(epoch FROM last_seen) AS last_seen_sec, EXTRACT(epoch FROM lag) AS lag_sec FROM pgq.get_consumer_info(?)", queue_name]) || {}
   end
 
+  # == utils
+  
+  def pgq_last_event_id(queue_name)
+    ticks = pgq_get_consumer_queue_info(queue_name)
+    table = connection.select_value("SELECT queue_data_pfx AS table FROM pgq.queue WHERE queue_name = #{sanitize(queue_name)}")
+
+    result = nil
+
+    if ticks['current_batch']
+      sql = connection.select_value("SELECT * FROM pgq.batch_event_sql(#{sanitize(ticks['current_batch'].to_i)})")
+      last_event = connection.select_value("SELECT MAX(ev_id) AS count FROM (#{sql}) AS x")
+      result = last_event.to_i
+    end
+
+    [table, result]
+  end
+
 end
