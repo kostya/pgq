@@ -11,12 +11,12 @@ module Pgq::Api
     connection.select_value(sanitize_sql_array ["SELECT pgq.drop_queue(?)", queue_name]).to_i
   end
 
-  def pgq_register_consumer(queue_name, consumer_id)
-    connection.select_value(sanitize_sql_array ["SELECT pgq.register_consumer(?, ?)", queue_name, consumer_id]).to_i
+  def pgq_register_consumer(queue_name, consumer_name)
+    connection.select_value(sanitize_sql_array ["SELECT pgq.register_consumer(?, ?)", queue_name, consumer_name]).to_i
   end
 
-  def pgq_unregister_consumer(queue_name, consumer_id)
-    connection.select_value(sanitize_sql_array ["SELECT pgq.unregister_consumer(?, ?)", queue_name, consumer_id]).to_i
+  def pgq_unregister_consumer(queue_name, consumer_name)
+    connection.select_value(sanitize_sql_array ["SELECT pgq.unregister_consumer(?, ?)", queue_name, consumer_name]).to_i
   end
   
   # == insert events
@@ -29,8 +29,8 @@ module Pgq::Api
   
   # == consuming
   
-  def pgq_next_batch(queue_name, consumer_id)
-    result = connection.select_value(sanitize_sql_array ["SELECT pgq.next_batch(?, ?)", queue_name, consumer_id])
+  def pgq_next_batch(queue_name, consumer_name)
+    result = connection.select_value(sanitize_sql_array ["SELECT pgq.next_batch(?, ?)", queue_name, consumer_name])
     result ? result.to_i : nil
   end
   
@@ -54,22 +54,22 @@ module Pgq::Api
 
   # == failed events
   
-  def pgq_failed_event_retry(queue_name, consumer, event_id)
-    connection.select_value(sanitize_sql_array ["SELECT * FROM pgq.failed_event_retry(?, ?, ?)", queue_name, consumer, event_id])
+  def pgq_failed_event_retry(queue_name, consumer_name, event_id)
+    connection.select_value(sanitize_sql_array ["SELECT * FROM pgq.failed_event_retry(?, ?, ?)", queue_name, consumer_name, event_id])
   end
       
-  def pgq_failed_event_delete(queue_name, consumer, event_id)
-    connection.select_value(sanitize_sql_array ["SELECT * FROM pgq.failed_event_delete(?, ?, ?)", queue_name, consumer, event_id])
+  def pgq_failed_event_delete(queue_name, consumer_name, event_id)
+    connection.select_value(sanitize_sql_array ["SELECT * FROM pgq.failed_event_delete(?, ?, ?)", queue_name, consumer_name, event_id])
   end
      
-  def pgq_failed_event_count(queue_name, consumer)
-    res = connection.select_value(sanitize_sql_array ["SELECT * FROM pgq.failed_event_count(?, ?)", queue_name, consumer])
+  def pgq_failed_event_count(queue_name, consumer_name)
+    res = connection.select_value(sanitize_sql_array ["SELECT * FROM pgq.failed_event_count(?, ?)", queue_name, consumer_name])
     res ? res.to_i : nil
   end
   
-  def pgq_failed_event_list queue_name, consumer, limit = nil, offset = nil, order = 'desc'
+  def pgq_failed_event_list queue_name, consumer_name, limit = nil, offset = nil, order = 'desc'
     order = (order.to_s == 'desc') ? order : 'asc'
-    connection.select_all(sanitize_sql_array ["SELECT * FROM pgq.failed_event_list(?, ?, ?, ?) ORDER BY ev_id #{order.upcase}", queue_name, consumer, limit.to_i, offset.to_i])
+    connection.select_all(sanitize_sql_array ["SELECT * FROM pgq.failed_event_list(?, ?, ?, ?) ORDER BY ev_id #{order.upcase}", queue_name, consumer_name, limit.to_i, offset.to_i])
   end
 
   # == info methods
