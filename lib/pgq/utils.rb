@@ -95,23 +95,11 @@ module Pgq::Utils
   
   # == resend failed events in queue
   def retry_failed_events(queue_name, limit = 5_000)
-    events = database.pgq_failed_event_list(queue_name, self.consumer_name, limit, nil, 'asc') || []
-
-    events.each do |event|
-      database.pgq_failed_event_retry(queue_name, self.consumer_name, event['ev_id'])
-    end
-    
-    events.length  
+    database.pgq_mass_retry_failed_events(queue_name, self.consumer_name, limit)
   end
   
   def delete_failed_events(queue_name, limit = 5_000)
-    events = database.pgq_failed_event_list(queue_name, self.consumer_name, limit, nil, 'asc') || []
-       
-    events.each do |event|
-      database.pgq_failed_event_delete(queue_name, self.consumer_name, event['ev_id'])
-    end
-                      
-    events.length
+    database.pgq_mass_delete_failed_events(queue_name, self.consumer_name, limit)
   end
 
 end

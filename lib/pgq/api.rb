@@ -108,5 +108,25 @@ module Pgq::Api
 
     [table, result]
   end
+  
+  def pgq_mass_retry_failed_events(queue_name, consumer_name, limit = 5_000)
+    events = pgq_failed_event_list(queue_name, consumer_name, limit, nil, 'asc') || []
+
+    events.each do |event|
+      pgq_failed_event_retry(queue_name, consumer_name, event['ev_id'])
+    end
+
+    events.length
+  end
+
+  def pgq_mass_delete_failed_events(queue_name, consumer_name, limit = 5_000)
+    events = pgq_failed_event_list(queue_name, consumer_name, limit, nil, 'asc') || []
+
+    events.each do |event|
+      pgq_failed_event_delete(queue_name, consumer_name, event['ev_id'])
+    end
+
+    events.length
+  end
 
 end
