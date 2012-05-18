@@ -21,29 +21,24 @@ module Pgq::Utils
   def inspect_queue(queue_name)
     table, last_event = database.pgq_last_event_id(queue_name)
     
-    if last_event
-      stats = connection.select_all <<-SQL
+    stats = if last_event
+      connection.select_all <<-SQL
         SELECT count(*) as count, ev_type
         FROM #{table}
         WHERE ev_id > #{last_event.to_i}
         GROUP BY ev_type
       SQL
-      
-      stats.each do |x|
-        result["#{x['ev_type']}"] = x['count'].to_i
-      end
-      
     else    
-      stats = connection.select_all <<-SQL
+      connection.select_all <<-SQL
         SELECT ev_type
         FROM #{table}
         GROUP BY ev_type
       SQL
-
-      stats.each do |x|
-        result["#{x['ev_type']}"] = 0
-      end
     end
+    
+    stats.each do |x|
+      result["#{x['ev_type']}"] = x['count'].to_i
+    end                
 
     result
   end
@@ -57,28 +52,23 @@ module Pgq::Utils
   def inspect_londiste_queue(queue_name)
     table, last_event = database.pgq_last_event_id(queue_name)
     
-    if last_event
-      stats = connection.select_all <<-SQL
+    stats = if last_event
+      connection.select_all <<-SQL
         SELECT count(*) as count, ev_type, ev_extra1
         FROM #{table}
         WHERE ev_id > #{last_event.to_i}
         GROUP BY ev_type, ev_extra1
       SQL
-      
-      stats.each do |x|
-        result["#{x['ev_extra1']}:#{x['ev_type']}"] = x['count'].to_i
-      end
-      
     else    
-      stats = connection.select_all <<-SQL
+      connection.select_all <<-SQL
         SELECT ev_type, ev_extra1
         FROM #{table}
         GROUP BY ev_type, ev_extra1 ORDER BY ev_extra1, ev_type
       SQL
-
-      stats.each do |x|
-        result["#{x['ev_extra1']}:#{x['ev_type']}"] = 0
-      end
+    end
+    
+    stats.each do |x|
+      result["#{x['ev_extra1']}:#{x['ev_type']}"] = x['count'].to_i
     end
 
     result
