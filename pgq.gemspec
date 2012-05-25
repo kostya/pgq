@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'activesupport', ">=2.3.2"  
   s.add_dependency 'activerecord', ">=2.3.2"
+  s.add_dependency 'pg'
   
   s.add_development_dependency "rspec"
   s.add_development_dependency "rake"
