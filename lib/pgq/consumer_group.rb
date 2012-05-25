@@ -11,7 +11,7 @@ class Pgq::ConsumerGroup < Pgq::Consumer
   end
   
   def perform_events(events)
-	  events = sum_events(events)
+    events = sum_events(events)
     # log_info "consume events (#{self.queue_name}): #{events.map{|k,v| [k, v.size]}.inspect}"
     perform_group(events) if events.present?
   end
