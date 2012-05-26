@@ -122,24 +122,8 @@ and run:
 
 
 
-
 ### Admin interface
-Admins interface is possible like Resque, but not realized yet.
-For queues info, run in console:
-
-    > Pgq::Consumer.database.pgq_get_consumer_info
-
-
-### Failed events
-When any raise happens in consumer, its produce failed event, which can be retry, or delete.
-
-Retry manual:
-
-    Pgq::Consumer.retry_failed_events(queue_name)
-
-Delete manual:
-    
-    Pgq::Consumer.delete_failed_events(queue_name)
+Realized by gem [pgq_ewb](http://github.com/kostya/pgq_web).
 
 
 ### Divide events between workers, for one consumer class
