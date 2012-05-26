@@ -123,7 +123,7 @@ and run:
 
 
 ### Admin interface
-Realized by gem [pgq_ewb](http://github.com/kostya/pgq_web).
+Realized by gem [pgq_web](http://github.com/kostya/pgq_web).
 
 
 ### Divide events between workers, for one consumer class
