@@ -33,7 +33,7 @@ module Pgq
     end
     
     def name_c
-      name.classify
+      name.camelize
     end
   end
   
