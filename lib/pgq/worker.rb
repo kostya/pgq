@@ -33,7 +33,9 @@ class Pgq::Worker
     raise "Queue not selected" if @queues.blank?
     
     if @queues == ['all'] || @queues == 'all'
-      if defined?(Rails) && File.exists?(Rails.root + "config/queues_list.yml")
+      if h[:queues_list]
+        @queues = YAML.load_file(h[:queues_list])
+      elsif defined?(Rails) && File.exists?(Rails.root + "config/queues_list.yml")
         @queues = YAML.load_file(Rails.root + "config/queues_list.yml")
       else
         raise "You shoud create config/queues_list.yml for all queues"

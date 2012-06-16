@@ -1,5 +1,5 @@
-Pgq Rails
-=========
+Pgq
+===
 
 Queues system for AR/Rails based on PgQ Skytools for PostgreSQL, like Resque on Redis. Rails 3! only tested.
  

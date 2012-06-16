@@ -2,3 +2,4 @@ TODO
 *.gem
 lib/serv
 README2
+Gemfile.lock
