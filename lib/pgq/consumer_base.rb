@@ -60,7 +60,7 @@ class Pgq::ConsumerBase
   # == coder
 
   def self.coder
-    Pgq::Marshal64Coder
+    Marshal64
   end
   
   def coder

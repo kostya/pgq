@@ -1,5 +1,6 @@
 require 'active_support'
 require 'active_record'
+require 'marshal64'
 
 module Pgq
 end
