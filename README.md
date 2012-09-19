@@ -46,7 +46,7 @@ Daemon run once, bind to the database. (If worker not consuming check that daemo
 
 Last, add to config/application.rb
 
-    config.autoload_paths += %W( #{config.root}/app/models/pgq )
+    config.autoload_paths += %W( #{config.root}/app/workers )
     
 
 Create Pgq consumer
@@ -174,7 +174,7 @@ class Pgq::Consumer
 
   # specify coder  
   def self.coder
-    Pgq::Marshal64Coder
+    Marshal64 # class/module with self methods dump/load
   end
     
 end

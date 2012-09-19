@@ -1,6 +1,6 @@
 class Pgq<%= name_c %> < Pgq::Consumer
 
-  # to insert event: Pgq<%= name_c %>.my_event(1, 2, 3)
+  # insert event: Pgq<%= name_c %>.my_event(1, 2, 3)
   
   # async execute
   def my_event(a, b, c)

@@ -21,8 +21,8 @@ module Pgq
     end
     
     def add_files
-      template "pgq_class.rb", "app/models/pgq/pgq_#{name}.rb"
-      template "spec.rb", "spec/models/pgq/pgq_#{name}_spec.rb"
+      template "pgq_class.rb", "app/workers/pgq_#{name}.rb"
+      template "spec.rb", "spec/workers/pgq_#{name}_spec.rb"
       migration_template "migration.rb", "db/migrate/create_#{name}_queue.rb"
     end
     
