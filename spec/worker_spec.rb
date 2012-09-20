@@ -1,9 +1,6 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe Pgq::Worker do
-  class PgqBla < Pgq::Consumer
-  end
-
   it "should find class not in hash" do
     Pgq::Worker.predict_queue_class('bla').should == PgqBla
     Pgq::Worker.predict_queue_class('bla_1').should == PgqBla

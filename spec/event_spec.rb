@@ -2,8 +2,7 @@ require File.dirname(__FILE__) + '/spec_helper'
 
 describe Pgq::Event do
   before :each do
-    kl = Class.new(Pgq::ConsumerGroup) do
-    end
+    kl = Class.new(Pgq::ConsumerGroup){}
     @consumer = kl.new
     @consumer.stub!(:get_next_batch).and_return ''
     @consumer.stub!(:finish_batch).and_return ''

@@ -1,15 +1,5 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
-class PgqHaha < Pgq::Consumer
-
-  def ptest2(a, b)
-    $a = a
-    $b = b
-    10
-  end
-
-end
-
 describe PgqHaha do
   before :each do
     @consumer = PgqHaha.new

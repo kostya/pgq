@@ -10,4 +10,3 @@ class Pgq::Consumer
   def self.to_ary 
   end
 end
-

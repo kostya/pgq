@@ -68,7 +68,7 @@ module Pgq::Api
   end
   
   def pgq_failed_event_list queue_name, consumer_name, limit = nil, offset = nil, order = 'desc'
-    order = (order.to_s == 'desc') ? order : 'asc'
+    order = (order.to_s == 'desc') ? 'desc' : 'asc'
     connection.select_all(sanitize_sql_array ["SELECT * FROM pgq.failed_event_list(?, ?, ?, ?) ORDER BY ev_id #{order.upcase}", queue_name, consumer_name, limit.to_i, offset.to_i])
   end
 
@@ -128,5 +128,9 @@ module Pgq::Api
 
     events.length
   end
-
+  
+  def pgq_force_tick(queue_name)
+    connection.select_value(sanitize_sql_array ["SELECT pgq.force_tick(?)", queue_name]).to_i
+  end
+  
 end

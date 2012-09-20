@@ -3,8 +3,8 @@ namespace :pgq do
   desc "Start worker params: QUEUES, LOGGER, WATCH_FILE"
   task :worker => [:environment] do 
     queues = ENV['QUEUES']
-    logger_file = ENV['LOGGER'] || ENV['RAILS_ROOT'].join("log/pgq_#{queues}.log")
-    watch_file = ENV['WATCH_FILE'] || ENV['RAILS_ROOT'].join("tmp/pgq_#{queues}.stop")
+    logger_file = ENV['LOGGER'] || "#{ENV['RAILS_ROOT']}/log/pgq_#{queues}.log"
+    watch_file = ENV['WATCH_FILE'] || "#{ENV['RAILS_ROOT']}/tmp/pgq_#{queues}.stop"
     logger = Logger.new(logger_file)
     w = Pgq::Worker.new(:logger => logger, :queues => queues, :watch_file => watch_file)
     w.run
@@ -71,7 +71,7 @@ pidfile = tmp/%(job_name)s.pid
   
     desc "Start PgQ ticker daemon"
     task :start do
-      conf = ENV['RAILS_ROOT'].join("config/pgq_#{ENV['RAILS_ENV']}.ini")
+      conf = "#{ENV['RAILS_ROOT']}/config/pgq_#{ENV['RAILS_ENV']}.ini"
       output = `which pgqadm.py && pgqadm.py #{conf} -d ticker 2>&1 || which pgqadm && pgqadm #{conf} -d ticker 2>&1`
       if output.empty?
         puts "ticker daemon started"
@@ -82,7 +82,7 @@ pidfile = tmp/%(job_name)s.pid
   
     desc "Stop PgQ ticker daemon"
     task :stop do
-      conf = ENV['RAILS_ROOT'].join("config/pgq_#{ENV['RAILS_ENV']}.ini")
+      conf = "#{ENV['RAILS_ROOT']}/config/pgq_#{ENV['RAILS_ENV']}.ini"
       output = `which pgqadm.py && pgqadm.py #{conf} -s 2>&1 || which pgqadm && pgqadm #{conf} -s 2>&1`
       if output.empty?
         puts "ticker daemon stoped"

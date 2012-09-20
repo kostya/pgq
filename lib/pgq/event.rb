@@ -4,13 +4,13 @@ class Pgq::Event
   def initialize(consumer, event)
     @id = event['ev_id']
     @type = event['ev_type']
-    @data = consumer.coder.load(event['ev_data']) if event['ev_data']
     @consumer = consumer
+    @data = @consumer.coder.load(event['ev_data']) if event['ev_data']
   end
 
   def failed!(ex)
     h = {:class => ex.class.to_s, :message => ex.message, :backtrace => ex.backtrace}
-    @consumer.event_failed @id, consumer.coder.dump(h)
+    @consumer.event_failed @id, @consumer.coder.dump(h)
   end
   
   def retry!(seconds = 0)
@@ -29,8 +29,8 @@ Backtrace: #{e.backtrace.join("\n") rescue ''}
   def exception_message(e)
     <<-EXCEPTION
 Exception happend
-Type: #{type.inspect}
-Data: #{data.inspect}
+Type: #{@type.inspect}
+Data: #{@data.inspect}
 Error occurs: #{e.class.inspect}(#{e.message})
 Backtrace: #{e.backtrace.join("\n") rescue ''}
     EXCEPTION
