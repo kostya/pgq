@@ -1,0 +1,6 @@
+test:
+  database: gem_pgq_test
+  adapter: postgresql
+  username: kostya
+  password: password
+  

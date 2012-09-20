@@ -3,3 +3,6 @@ TODO
 lib/serv
 README2
 Gemfile.lock
+pgq_test.ini
+log/
+tmp/
