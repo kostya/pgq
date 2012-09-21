@@ -22,9 +22,9 @@ Gemfile:
 gem 'pgq'
 ```
 
-Create ticker configs:
+Create ticker configs from database.yml:
 
-    $ rails generate pgq:config
+    $ rake pgq:generate_configs 
     edit config: config/pgq_development.ini
 
 
