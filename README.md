@@ -189,3 +189,12 @@ Usefull in specs
  
 When code call PgqMy.some_method1(a,b,c) this would be convert into PgqMy.new.some_method1(a,b,c)
   
+  
+### for Rails 2.3
+
+Add to Rakefile:
+```
+load 'tasks/pgq.rake'
+```
+
+Copy generators from gem to lib/generators.
