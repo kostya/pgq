@@ -1,3 +1,8 @@
+if defined?(Rails)
+  ENV['RAILS_ROOT'] ||= Rails.root
+  ENV['RAILS_ENV'] ||= Rails.env
+end
+
 namespace :pgq do
 
   desc "Start worker params: QUEUES, LOGGER, WATCH_FILE"
