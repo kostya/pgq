@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.authors = ["Makarchev Konstantin"]
   s.autorequire = %q{init}
   
-  s.description = %q{Queues system for AR/Rails based on PgQ Skytools for PostgreSQL, like Resque on Redis. Rails 3! only tested.}
-  s.summary = %q{Queues system for AR/Rails based on PgQ Skytools for PostgreSQL, like Resque on Redis. Rails 3! only tested.}
+  s.description = %q{Queues system for AR/Rails based on PgQ Skytools for PostgreSQL, like Resque on Redis. Rails 2.3 and 3 compatible.}
+  s.summary = %q{Queues system for AR/Rails based on PgQ Skytools for PostgreSQL, like Resque on Redis. Rails 2.3 and 3 compatible.}
   
   s.email = %q{kostya27@gmail.com}
   s.homepage = %q{http://github.com/kostya/pgq}

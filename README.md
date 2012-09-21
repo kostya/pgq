@@ -1,7 +1,7 @@
 Pgq
 ===
 
-Queues system for AR/Rails based on PgQ Skytools for PostgreSQL, like Resque on Redis. Rails 3! only tested.
+Queues system for AR/Rails based on PgQ Skytools for PostgreSQL, like Resque on Redis. Rails 2.3 and 3 compatible.
  
 About PgQ
 *  http://wiki.postgresql.org/wiki/SkyTools#PgQ
