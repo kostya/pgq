@@ -1,6 +1,6 @@
 if defined?(Rails)
-  ENV['RAILS_ROOT'] ||= Rails.root
-  ENV['RAILS_ENV'] ||= Rails.env
+  ENV['RAILS_ROOT'] ||= Rails.root.to_s
+  ENV['RAILS_ENV'] ||= Rails.env.to_s
 end
 
 namespace :pgq do
