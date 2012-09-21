@@ -3,7 +3,7 @@ if defined?(Rails) && Rails::VERSION::MAJOR == 2
 
 module Pgq
 
-  class NagiosGenerator < Rails::Generator::NamedBase
+  class PgqGenerator < Rails::Generator::NamedBase
     def manifest
       record do |m|
         m.template "pgq_class.rb", "app/workers/pgq_#{file_path}.rb"
@@ -12,7 +12,7 @@ module Pgq
         m.template "migration.rb", "db/migrate/#{Time.now.utc.strftime("%Y%m%d%H%M%S")}_create_#{file_path}_queue.rb"
       end
       
-      add_queues_list
+      add_to_queues_list
     end
     
   private
@@ -28,5 +28,7 @@ module Pgq
       end
     end
   end
+
+end
 
 end
