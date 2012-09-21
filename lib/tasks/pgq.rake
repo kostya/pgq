@@ -71,6 +71,13 @@ pidfile = tmp/%(job_name)s.pid
     puts "Config #{ENV["RAILS_ENV"]} generated to '#{output}'"
   end  
   
+  desc "Generate Pgq configs from database.yml for all environments"
+  task :generate_configs do
+    %w{development test production}.each do |env|
+      ENV['RAILS_ENV'] = env
+      Rake::Task["pgq:generate_config"].invoke
+    end
+  end
   
   namespace :ticker do
   
