@@ -60,8 +60,13 @@ namespace :pgq do
 [pgqadm]
 job_name = #{cfg['database']}_pgqadm
 db = host=#{cfg['host'] || '127.0.0.1'} dbname=#{cfg['database']} user=#{cfg['username']} password=#{cfg['password']} port=#{cfg['port'] || 5432}
+
+# how often to run maintenance [seconds]
 maint_delay = 500
+
+# how often to check for activity [seconds]
 loop_delay = 0.05
+
 logfile = log/%(job_name)s.log
 pidfile = tmp/%(job_name)s.pid
     SQL
