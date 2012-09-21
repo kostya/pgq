@@ -55,7 +55,7 @@ Create Pgq consumer
     $ rails generate pgq:add my
 
 
-This creates file app/models/pgq/pgq_my.rb and migration
+This creates file app/workers/pgq_my.rb and migration
 
     $ rake db:migrate
 
@@ -198,3 +198,7 @@ load 'tasks/pgq.rake'
 ```
 
 Copy generators from gem to lib/generators.
+
+```
+./script/generate pgq bla
+```
