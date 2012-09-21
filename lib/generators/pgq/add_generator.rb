@@ -1,8 +1,10 @@
+# for Rails 3
+if defined?(Rails) && Rails::VERSION::MAJOR >= 3
+
 module Pgq
-  class AddGenerator < Rails::Generators::Base
+  class AddGenerator < Rails::Generators::NamedBase
     include Rails::Generators::Migration
-    source_root File.expand_path("../add_templates", __FILE__)
-    argument :queue_name, :type => :string
+    source_root File.expand_path("../templates", __FILE__)
     
     def self.next_migration_number(path)
       Time.now.utc.strftime("%Y%m%d%H%M%S")
@@ -21,20 +23,12 @@ module Pgq
     end
     
     def add_files
-      template "pgq_class.rb", "app/workers/pgq_#{name}.rb"
-      template "spec.rb", "spec/workers/pgq_#{name}_spec.rb"
-      migration_template "migration.rb", "db/migrate/create_#{name}_queue.rb"
-    end
-    
-  private
-  
-    def name 
-      queue_name.underscore
-    end
-    
-    def name_c
-      name.camelize
+      template "pgq_class.rb", "app/workers/pgq_#{file_path}.rb"
+      template "spec.rb", "spec/workers/pgq_#{file_path}_spec.rb"
+      migration_template "migration.rb", "db/migrate/create_#{file_path}_queue.rb"
     end
   end
   
+end
+
 end
