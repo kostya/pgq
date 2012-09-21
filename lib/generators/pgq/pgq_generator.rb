@@ -10,9 +10,9 @@ module Pgq
         m.directory "spec/workers"
         m.template "spec.rb", "spec/workers/pgq_#{file_path}_spec.rb"
         m.template "migration.rb", "db/migrate/#{Time.now.utc.strftime("%Y%m%d%H%M%S")}_create_#{file_path}_queue.rb"
+        
+        add_to_queues_list
       end
-      
-      add_to_queues_list
     end
     
   private
