@@ -59,6 +59,14 @@ describe Pgq::ConsumerBase do
     PgqTata3.enqueue(:method1) 
   end
 
+  it "enqueue_to" do
+    PgqTata3.database.should_receive(:pgq_insert_event).with('tutturu2', 'method1', @coder.dump([1,2]))
+    PgqTata3.enqueue_to('tutturu2', :method1, 1, 2)
+
+    PgqTata3.database.should_receive(:pgq_insert_event).with('tutturu2', 'method1', @coder.dump([[1,2]]))
+    PgqTata3.enqueue_to('tutturu2', :method1, [1, 2])
+  end
+
 
   describe "consuming" do
     before :each do

@@ -69,6 +69,10 @@ class Pgq::ConsumerBase
 
   # == insert event
   
+  def self.enqueue_to(queue_name, method_name, *args)
+    self.database.pgq_insert_event( queue_name, method_name.to_s, coder.dump(args) )
+  end
+
   def self.enqueue(method_name, *args)
     self.database.pgq_insert_event( self.next_queue_name, method_name.to_s, coder.dump(args) )
   end
