@@ -1,7 +1,7 @@
 require 'logger'
 
 class Pgq::Worker
-  attr_reader :logger, :queues, :consumers, :sleep_time, :watch_file
+  attr_reader :logger, :queues, :consumers, :sleep_time
   
   def self.predict_queue_class(queue)
     klass = nil
@@ -53,7 +53,7 @@ class Pgq::Worker
       end
     end
 
-    @watch_file = h[:watch_file]
+    @stop_proc = h[:stop_proc]
     @sleep_time = h[:sleep_time] || 0.5
   end
 
@@ -63,9 +63,8 @@ class Pgq::Worker
     @consumers.each do |consumer|
       process_count += consumer.perform_batch
 
-      if @watch_file && File.exists?(@watch_file)
-        logger.info "Found file #{@watch_file}, exiting!"
-        File.unlink(@watch_file)
+      if @stop_proc && @stop_proc.call
+        logger.info "Stopped by stop_proc!"
         return processed_count
       end
     end
@@ -80,6 +79,17 @@ class Pgq::Worker
       processed_count = process_batch
       sleep(@sleep_time) if processed_count == 0
     end
+  end
+
+  def run_once
+    logger.info "OnceWorker for (#{@queues.join(",")}) started"
+
+    loop do
+      processed_count = process_batch
+      break if processed_count == 0
+    end
+
+    logger.info "OnceWorker for (#{@queues.join(",")}) finished"
   end
 
 end

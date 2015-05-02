@@ -14,22 +14,6 @@ describe Pgq::Worker do
     Pgq::Worker.predict_queue_class(nil).should == nil
   end
 
-  def process_batch
-    processed_count = 0
-
-    @consumers.each do |consumer|
-      processed_count += consumer.perform_batch
-
-      if @watch_file && File.exists?(@watch_file)
-        logger.info "Found file #{@watch_file}, now exiting"
-        File.unlink(@watch_file)
-        return
-      end
-    end
-
-    processed_count
-  end  
-
   it "initialize" do
     @w = Pgq::Worker.new :queues => ['bla']
 
