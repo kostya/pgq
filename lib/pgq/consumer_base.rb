@@ -9,7 +9,7 @@ class Pgq::ConsumerBase
   @queue_name = 'default'
   @consumer_name = 'default'
   
-  attr_accessor :logger, :queue_name, :consumer_name
+  attr_accessor :queue_name, :consumer_name
 
   # == connection 
 
@@ -83,7 +83,7 @@ class Pgq::ConsumerBase
   def initialize(logger = nil, custom_queue_name = nil, custom_consumer_name = nil)
     self.queue_name = custom_queue_name || self.class.queue_name
     self.consumer_name = custom_consumer_name || self.class.consumer_name
-    @logger = logger || Logger.new(STDOUT)
+    @logger = logger
     @batch_id = nil
   end
   
@@ -159,6 +159,10 @@ class Pgq::ConsumerBase
     events.each do |event|
       event.failed!(ex)
     end    
+  end
+
+  def logger
+    @logger ||= Logger.new(STDOUT)
   end
 
   Logger::Severity.constants.each do |level|
