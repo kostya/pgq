@@ -120,11 +120,7 @@ class Pgq::ConsumerBase
 
     perform(type, *data)
 
-  rescue Exception => ex
-    error(event.exception_message(ex))
-    event.failed!(ex)
-    
-  rescue => ex
+  rescue Object => ex
     error(event.exception_message(ex))
     event.failed!(ex)
   end

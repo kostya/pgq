@@ -39,5 +39,10 @@ describe PgqHaha do
     $a.should == 111
     $b.should == 'abc'
   end
-  
+
+  it "before_event" do
+    PgqCallback.proxy(:bla)
+    PgqCallback.bla(111)
+    $x.should == 123
+  end
 end

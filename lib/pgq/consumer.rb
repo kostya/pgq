@@ -16,7 +16,12 @@ class Pgq::Consumer < Pgq::ConsumerBase
 
   # == magick consume
 
+  def before_event(method_name, *args)
+    # just callback, redefine if needed
+  end
+
   def perform(method_name, *args)
+    self.before_event(method_name, *args)
     self.send(method_name, *args)
   end
 

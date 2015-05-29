@@ -31,6 +31,16 @@ class PgqHaha < Pgq::Consumer
   
 end
 
+class PgqCallback < Pgq::Consumer
+  def before_event(method_name, *args)
+    @x = 12
+  end
+
+  def bla(x)
+    $x = x + @x
+  end
+end
+
 def start_ticker
   conf = "#{ENV['RAILS_ROOT']}/config/pgq_#{ENV['RAILS_ENV']}.ini"
   output = `which pgqadm.py && pgqadm.py #{conf} -d ticker 2>&1 || which pgqadm && pgqadm #{conf} -d ticker 2>&1`
