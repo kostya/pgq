@@ -1,6 +1,7 @@
 require 'pgq/utils'
 require 'pgq/api'
 require 'active_support/inflector' unless ''.respond_to?(:underscore)
+require 'logger'
 
 class Pgq::ConsumerBase
   extend Pgq::Utils
@@ -82,7 +83,7 @@ class Pgq::ConsumerBase
   def initialize(logger = nil, custom_queue_name = nil, custom_consumer_name = nil)
     self.queue_name = custom_queue_name || self.class.queue_name
     self.consumer_name = custom_consumer_name || self.class.consumer_name
-    self.logger = logger
+    self.logger = logger || Logger.new(nil)
     @batch_id = nil
   end
   
