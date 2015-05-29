@@ -83,7 +83,7 @@ class Pgq::ConsumerBase
   def initialize(logger = nil, custom_queue_name = nil, custom_consumer_name = nil)
     self.queue_name = custom_queue_name || self.class.queue_name
     self.consumer_name = custom_consumer_name || self.class.consumer_name
-    self.logger = logger || Logger.new(nil)
+    @logger = logger || Logger.new(STDOUT)
     @batch_id = nil
   end
   
@@ -95,16 +95,13 @@ class Pgq::ConsumerBase
     
     events = pgq_events.map{|ev| Pgq::Event.new(self, ev) }
     size = events.size
-    log_info "=> batch(#{queue_name}): events #{size}"
+    info "=> batch(#{queue_name}): events #{size}"
     
     perform_events(events)
     
-  rescue Exception => ex
+  rescue Object => ex
     all_events_failed(events, ex)
  
-  rescue => ex
-    all_events_failed(events, ex)
-    
   ensure
     finish_batch(events.size)
     
@@ -124,11 +121,11 @@ class Pgq::ConsumerBase
     perform(type, *data)
 
   rescue Exception => ex
-    self.log_error(event.exception_message(ex))
+    error(event.exception_message(ex))
     event.failed!(ex)
     
   rescue => ex
-    self.log_error(event.exception_message(ex))
+    error(event.exception_message(ex))
     event.failed!(ex)
   end
 
@@ -157,21 +154,20 @@ class Pgq::ConsumerBase
   end
 
   def all_events_failed(events, ex)
-    log_error(Pgq::Event.exception_message(ex))
+    error(Pgq::Event.exception_message(ex))
     
     events.each do |event|
       event.failed!(ex)
     end    
   end
 
-  # == log methods
-
-  def log_info(mes)
-    @logger.info(mes) if @logger
+  Logger::Severity.constants.each do |level|
+    method_name = level.to_s.downcase
+    class_eval <<-E
+      def #{method_name}(msg = nil, &block)
+        self.logger.send(:#{method_name}, msg, &block) if self.logger
+      end
+    E
   end
 
-  def log_error(mes)
-    @logger.error(mes) if @logger
-  end
-  
 end
